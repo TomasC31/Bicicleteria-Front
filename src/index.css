@@ -1,10 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
-
 :root {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #0b1020;
+  color: #e5eef7;
+  background: #0f172a;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -20,12 +19,14 @@ body,
 #root {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 body {
-  background: radial-gradient(circle at 15% -10%, #f8d66d 0%, transparent 35%),
-    radial-gradient(circle at 100% 0%, #67d6ff 0%, transparent 32%), #f6f7fb;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 35%),
+    linear-gradient(160deg, #0f172a 0%, #111827 45%, #020617 100%);
 }
 
 button,
@@ -35,33 +36,22 @@ select {
   font: inherit;
 }
 
-.bike-nav {
-  background: linear-gradient(90deg, #04152c 0%, #0a2648 45%, #153a6b 100%);
-  box-shadow: 0 8px 30px rgba(4, 21, 44, 0.24);
+.app {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  text-align: center;
 }
 
-.bike-hero {
-  background: linear-gradient(120deg, #081c3a 0%, #0f3363 52%, #1a4f8e 100%);
-  box-shadow: 0 18px 50px rgba(6, 24, 50, 0.25);
+.app h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: -0.04em;
 }
 
-.bike-eyebrow {
-  letter-spacing: 0.14em;
-  opacity: 0.85;
-}
-
-.bike-card {
-  border-radius: 1rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.bike-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 24px rgba(5, 15, 30, 0.14);
-}
-
-.bike-panel {
-  background: #ffffff;
-  border: 1px solid #e6eaf2;
-  box-shadow: 0 10px 25px rgba(9, 21, 40, 0.08);
+.app p {
+  margin: 0;
+  color: #cbd5e1;
 }
