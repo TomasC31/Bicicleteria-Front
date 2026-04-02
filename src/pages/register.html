@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Register</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- CSS de Bootstrap (debe estar) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- JavaScript de Bootstrap (OBLIGATORIO para que funcione el menú) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav classname="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"> DM Bikes </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Inicio</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contacto</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+        <!-- formulario de registro -->
+        <form class=" g-3 needs-validation"> 
+                <h1 style="margin: 10px;">Registrarse en la Bicicleteria </h1>
+                <input id="lt" name="lt" type="hidden" value="LT-17740233593681-VDY2n5Vc9Ewt860GBUCets2onQeuKIBnWJaLRHaU">
+                <!--ingresar nombre usuario-->
+                <div class="row" style="margin: 30px;"> 
+                    <div class=" col-md-6 ">                   
+                        <label class="">Usuario</label>
+                        <input class="form-control" placeholder="Ingresa tu Usuario" type="text">
+                        <a class="" href="#" id="forgot_password">¿Olvidaste el usuario?</a>   
+                    </div>
+                    <!-- Ingresar Mail  -->
+                    <div class=" col-md-6 ">                        
+                        <label class="">Mail</label>
+                        <input class="form-control" placeholder="Ingresa tu mail" type="text">
+                        <a class="" href="#" id="forgot_password">¿Olvidaste el mail?</a>    
+                    </div>
+                </div>
+
+                <div class="row" style="margin: 30px;"> 
+                    <!-- Ingresar Contraseña  -->
+                    <div class=" col-md-6 ">                        
+                        <label class="">Contraseña</label>  
+                        <input class="form-control" placeholder="Ingresa tu contraseña" type="password">               
+                        <a class="" href="#" id="help_login">¿Necesitas ayuda?</a>
+                        <a class="" href="#" id="forgot_password">¿Olvidaste la contraseña?</a>
+                    </div>
+
+                    <!-- Ingresar confirmacion de la contraseña  -->
+                    <div class=" col-md-6 ">                        
+                        <label class="">Confirmar Contraseña</label>                
+                        <input class="form-control" placeholder="Confirme contraseña" type="password">                   
+                    </div>
+
+                </div>
+                <!--Boton para reguistrarse -->
+                <div class="row" style="margin: 20px;">
+                    <button class="btn btn-primary"  id="bt-login" type="submit" >Registrarse</button>         
+                </div>
+                                <!--Boton para reguistrarse -->
+                <div class="row" style="margin: 20px;">
+                    <label class="">Si ya tienes cuenta</label>
+                    <!-- utilizando propiedades de javascript utilizamos window.location.href -> direccion a la que quier ir-->
+                    <button class="btn btn-primary" id="bt-login" type="button" onclick="window.location.href='login.html'">Log in</button>         
+                </div>
+         
+        </form>
+        
+   </div>
+
+   
+
+</body>
+
