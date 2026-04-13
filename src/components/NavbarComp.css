@@ -1,0 +1,23 @@
+/* Estilos personalizados para el Navbar */
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.navbar-brand:hover {
+  color: #fff !important;
+}
+
+.navbar-nav .nav-link {
+  margin-left: 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ffc107 !important;
+}
+
+.navbar-nav .nav-link.active {
+  color: #ffc107 !important;
+  border-bottom: 2px solid #ffc107;
+}
