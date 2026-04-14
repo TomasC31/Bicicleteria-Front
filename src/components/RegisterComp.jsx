@@ -38,14 +38,14 @@ const RegisterComp = () => {
     // Validar nombre
     if (!formData.nombre.trim()) {
       newErrors.nombre = 'El nombre es obligatorio';
-    } else if (formData.nombre.length < 2) {
+    } else if (formData.nombre.length < 3) {
       newErrors.nombre = 'El nombre debe tener al menos 2 caracteres';
     }
     
     // Validar apellido
     if (!formData.apellido.trim()) {
       newErrors.apellido = 'El apellido es obligatorio';
-    } else if (formData.apellido.length < 2) {
+    } else if (formData.apellido.length < 3) {
       newErrors.apellido = 'El apellido debe tener al menos 2 caracteres';
     }
     
@@ -60,7 +60,7 @@ const RegisterComp = () => {
     // Validar contraseña
     if (!formData.password) {
       newErrors.password = 'La contraseña es obligatoria';
-    } else if (formData.password.length < 6) {
+    } else if (formData.password.length < 8) {
       newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
     }
     
