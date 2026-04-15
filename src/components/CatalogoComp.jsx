@@ -75,10 +75,7 @@ const Catalogo = ({ items }) => {
 
   return (
     <Container className="mt-4">
-      <div className="d-flex justify-content-end gap-2 mb-4">
-
-      </div>
-      {modoGrid ? renderCarousel() : renderGrid()}
+      {renderCarousel()}
     </Container>
   );
 };
