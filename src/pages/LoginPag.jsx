@@ -8,53 +8,82 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí irá la lógica de login
     console.log('Login:', { email, password });
-    // navigate('/dashboard'); // Descomentar cuando exista
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-header bg-dark text-white">
-              <h2 className="mb-0">Iniciar Sesión</h2>
+    <div style={{ display: 'flex', height: 'calc(100vh - 56px)', backgroundColor: 'white', overflow: 'hidden' }}>
+
+      {/* Formulario centrado */}
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '16px',
+          padding: '2.5rem',
+          width: '100%',
+          maxWidth: '400px',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
+        }}>
+          <h2 style={{ fontWeight: 'bold', marginBottom: '0.3rem', color: '#111', textAlign: 'center' }}>
+            Iniciar Sesión
+          </h2>
+          <p style={{ color: '#888', marginBottom: '2rem', textAlign: 'center' }}>
+            Ingresá tus datos para continuar
+          </p>
+
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Email</label>
+              <input
+                type="email"
+                className="form-control form-control-lg"
+                placeholder="tu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={{ borderRadius: '10px' }}
+              />
             </div>
-            <div className="card-body">
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">
-                    Contraseña
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
-                <button type="submit" className="btn btn-dark w-100">
-                  Ingresar
-                </button>
-              </form>
+
+            <div className="mb-4">
+              <label className="form-label fw-semibold">Contraseña</label>
+              <input
+                type="password"
+                className="form-control form-control-lg"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={{ borderRadius: '10px' }}
+              />
             </div>
-          </div>
+
+            <button
+              type="submit"
+              className="btn btn-lg w-100"
+              style={{
+                backgroundColor: '#1565C0',
+                color: 'white',
+                fontWeight: 'bold',
+                borderRadius: '10px',
+                border: 'none',
+              }}
+            >
+              Ingresar
+            </button>
+          </form>
+
+          <p style={{ textAlign: 'center', marginTop: '1.5rem', color: '#888' }}>
+            ¿No tenés cuenta?{' '}
+            <a href="/register" style={{ color: '#1565C0', fontWeight: 'bold', textDecoration: 'none' }}>
+              Registrate
+            </a>
+          </p>
         </div>
       </div>
     </div>
