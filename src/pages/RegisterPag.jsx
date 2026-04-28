@@ -1,5 +1,5 @@
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import RegisterComp from '../components/RegisterComp';
+import RegisterComp from '../components/RegisterComp.jsx';
 
 export default function RegisterPag() {
   return (
