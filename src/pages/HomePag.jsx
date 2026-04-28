@@ -11,9 +11,8 @@ export default function HomePag() {
         <CatalogoComp items={productos} />
       </div>
 
-
       <div className="container mt-4">
-        <h1  className="mb-4">Anuncion</h1>
+        <h1  className="mb-4">Anuncios</h1>
         <CatalogoComp items={productos} />
       </div>
 

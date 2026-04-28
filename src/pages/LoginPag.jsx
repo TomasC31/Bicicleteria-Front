@@ -1,18 +1,16 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import LoginComp from '../components/LoginComp';
 
-export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Login:', { email, password });
-  };
-
+export default function LoginPag() {
   return (
     <div style={{ display: 'flex', height: 'calc(100vh - 56px)', backgroundColor: 'white', overflow: 'hidden' }}>
+
+      {/* Líneas verticales de colores */}
+      <div style={{ display: 'flex', flexDirection: 'row', width: '60px', height: '100%', gap: '6px', padding: '0 8px', flexShrink: 0 }}>
+        <div style={{ flex: 1, backgroundColor: '#1565C0' }} />
+        <div style={{ flex: 1, backgroundColor: '#C62828' }} />
+        <div style={{ flex: 1, backgroundColor: '#F9A825' }} />
+        <div style={{ flex: 1, backgroundColor: '#2E7D32' }} />
+      </div>
 
       {/* Formulario centrado */}
       <div style={{
@@ -36,47 +34,7 @@ export default function Login() {
             Ingresá tus datos para continuar
           </p>
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label className="form-label fw-semibold">Email</label>
-              <input
-                type="email"
-                className="form-control form-control-lg"
-                placeholder="tu@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                style={{ borderRadius: '10px' }}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="form-label fw-semibold">Contraseña</label>
-              <input
-                type="password"
-                className="form-control form-control-lg"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                style={{ borderRadius: '10px' }}
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="btn btn-lg w-100"
-              style={{
-                backgroundColor: '#1565C0',
-                color: 'white',
-                fontWeight: 'bold',
-                borderRadius: '10px',
-                border: 'none',
-              }}
-            >
-              Ingresar
-            </button>
-          </form>
+          <LoginComp />
 
           <p style={{ textAlign: 'center', marginTop: '1.5rem', color: '#888' }}>
             ¿No tenés cuenta?{' '}

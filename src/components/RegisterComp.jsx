@@ -39,14 +39,14 @@ const RegisterComp = () => {
     if (!formData.nombre.trim()) {
       newErrors.nombre = 'El nombre es obligatorio';
     } else if (formData.nombre.length < 3) {
-      newErrors.nombre = 'El nombre debe tener al menos 2 caracteres';
+      newErrors.nombre = 'El nombre debe tener al menos 3 caracteres';
     }
     
     // Validar apellido
     if (!formData.apellido.trim()) {
       newErrors.apellido = 'El apellido es obligatorio';
     } else if (formData.apellido.length < 3) {
-      newErrors.apellido = 'El apellido debe tener al menos 2 caracteres';
+      newErrors.apellido = 'El apellido debe tener al menos 3 caracteres';
     }
     
     // Validar email
@@ -60,7 +60,7 @@ const RegisterComp = () => {
     // Validar contraseña
     if (!formData.password) {
       newErrors.password = 'La contraseña es obligatoria';
-    } else if (formData.password.length < 8) {
+    } else if (formData.password.length < 6) {
       newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
     }
     
