@@ -143,8 +143,8 @@ const RegisterComp = () => {
       
       <Form onSubmit={handleSubmit}>
         {/* Nombre */}
-        <Form.Group className="mb-3" controlId="formNombre">
-          <Form.Label>Nombre *</Form.Label>
+        <Form.Group className="mb-2" controlId="formNombre">
+          <Form.Label>Nombre</Form.Label>
           <Form.Control
             type="text"
             name="nombre"
@@ -159,8 +159,8 @@ const RegisterComp = () => {
         </Form.Group>
         
         {/* Apellido */}
-        <Form.Group className="mb-3" controlId="formApellido">
-          <Form.Label>Apellido *</Form.Label>
+        <Form.Group className="mb-2" controlId="formApellido">
+          <Form.Label>Apellido</Form.Label>
           <Form.Control
             type="text"
             name="apellido"
@@ -175,8 +175,8 @@ const RegisterComp = () => {
         </Form.Group>
         
         {/* Email */}
-        <Form.Group className="mb-3" controlId="formEmail">
-          <Form.Label>Correo Electrónico *</Form.Label>
+        <Form.Group className="mb-2" controlId="formEmail">
+          <Form.Label>Correo Electrónico</Form.Label>
           <Form.Control
             type="email"
             name="mail"
@@ -191,8 +191,8 @@ const RegisterComp = () => {
         </Form.Group>
         
         {/* Contraseña */}
-        <Form.Group className="mb-3" controlId="formPassword">
-          <Form.Label>Contraseña *</Form.Label>
+        <Form.Group className="mb-2" controlId="formPassword">
+          <Form.Label>Contraseña</Form.Label>
           <Form.Control
             type="password"
             name="password"
@@ -207,8 +207,8 @@ const RegisterComp = () => {
         </Form.Group>
         
         {/* Confirmar Contraseña */}
-        <Form.Group className="mb-4" controlId="formConfirmPassword">
-          <Form.Label>Confirmar Contraseña *</Form.Label>
+        <Form.Group className="mb-2" controlId="formConfirmPassword">
+          <Form.Label>Confirmar Contraseña</Form.Label>
           <Form.Control
             type="password"
             name="confirmPassword"
