@@ -31,14 +31,16 @@ const Catalogo = ({ items }) => {
 
   
   const renderCarousel = () => (
-    <Carousel 
-      variant="dark" 
+    <Carousel
+
+      
       responsive={responsive}
       infinite={true}
       keyBoardControl={false}
       containerClass="carousel-container"
       itemClass="px-2"
       className="mb-4">
+
       {items.map((item) => (
         <div key={item.id} className="d-flex justify-content-center">
           <Card style={{ width: '20rem' }}>
