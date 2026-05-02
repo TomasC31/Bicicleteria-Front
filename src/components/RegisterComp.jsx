@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
+import { registrarUsuario } from '../Data/Usuarios';
+
 const RegisterComp = () => {
   // Estado para los datos del formulario
   const [formData, setFormData] = useState({
@@ -75,7 +77,7 @@ const RegisterComp = () => {
   };
 
   // Manejar envío del formulario
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
     // Validar
@@ -86,45 +88,18 @@ const RegisterComp = () => {
     }
     
     // Aquí haces la llamada a tu API/backend
-    try {
-      // Ejemplo de envío a API
-      const response = await fetch('http://localhost:3000/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nombre: formData.nombre,
-          apellido: formData.apellido,
-          mail: formData.mail,
-          password: formData.password
-        }),
-      });
-      
-      if (response.ok) {
-        setSuccessMessage('¡Registro exitoso! Redirigiendo al login...');
-        // Limpiar formulario
-        setFormData({
-          nombre: '',
-          apellido: '',
-          mail: '',
-          password: '',
-          confirmPassword: ''
-        });
-        // Redirigir después de 2 segundos
-        setTimeout(() => {
-          // window.location.href = '/login';
-          console.log('Redirigir al login');
-        }, 2000);
-      } else {
-        const data = await response.json();
-        setErrors({ submit: data.message || 'Error en el registro' });
-      }
-    } catch (error) {
-      setErrors({ submit: 'Error de conexión. Intenta nuevamente' });
+    const resultado = registrarUsuario(formData.nombre, formData.apellido, formData.mail, formData.password);
+
+    if(resultado.exito){
+      setSuccessMessage('Registro exitoso. Redirigiendo al login...');
+      setFormData({nombre: '', apellido: '', mail: '', password: '', confirmPassword: ''});
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
+    } else{
+      setErrors({submit: resultado.mensaje || 'Error al registrar usuario'});
     }
   };
-
   return (
     <>
       {/* Mensaje de éxito */}

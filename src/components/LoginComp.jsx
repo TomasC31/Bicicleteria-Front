@@ -52,7 +52,7 @@ export default function LoginComp() {
     }
 
     console.log("Login exitoso: ", resultado.usuario);
-    navigate("/home")
+    navigate("/")
   };
 
   return (
