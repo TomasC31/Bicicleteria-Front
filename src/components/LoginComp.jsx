@@ -1,5 +1,11 @@
 import { useState } from 'react';
 
+//Importo la funcion loginUsuario que esta dentro de Usuarios.js
+import { loginUsuario } from '../Data/Usuarios';
+
+//Permite redirigir al usuario a ptra pagina desde el codigo sin que tenga que hacer click en otro lado
+import { useNavigate } from "react-router-dom"
+
 export default function LoginComp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,6 +30,9 @@ export default function LoginComp() {
     return newErrors;
   };
 
+
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -33,8 +42,17 @@ export default function LoginComp() {
       return;
     }
 
-    console.log('Login:', { email, password });
+    
     // Acá tiene que ir la llamada a la API cuando tengamos el backend
+    const resultado = loginUsuario(email, password);
+
+    if(!resultado.exito){
+      setErrors({submit: resultado.mensaje});
+      return;
+    }
+
+    console.log("Login exitoso: ", resultado.usuario);
+    navigate("/home")
   };
 
   return (
@@ -74,7 +92,9 @@ export default function LoginComp() {
           <div className="invalid-feedback">{errors.password}</div>
         )}
       </div>
-
+        {errors.submit &&(
+          <div className="alert alert-danger mb-3">{errors.submit}</div>
+        )}
       <button
         type="submit"
         className="btn btn-lg w-100"

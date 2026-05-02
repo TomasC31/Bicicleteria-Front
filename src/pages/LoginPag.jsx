@@ -1,17 +1,11 @@
 import LoginComp from '../components/LoginComp';
 
+
 export default function LoginPag() {
   return (
     <div style={{ display: 'flex', height: 'calc(100vh - 56px)', backgroundColor: 'white', overflow: 'hidden' }}>
 
-      {/* Líneas verticales de colores */}
-      <div style={{ display: 'flex', flexDirection: 'row', width: '60px', height: '100%', gap: '6px', padding: '0 8px', flexShrink: 0 }}>
-        <div style={{ flex: 1, backgroundColor: '#1565C0' }} />
-        <div style={{ flex: 1, backgroundColor: '#C62828' }} />
-        <div style={{ flex: 1, backgroundColor: '#F9A825' }} />
-        <div style={{ flex: 1, backgroundColor: '#2E7D32' }} />
-      </div>
-
+  
       {/* Formulario centrado */}
       <div style={{
         flex: 1,
