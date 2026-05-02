@@ -9,7 +9,7 @@ export default function App() {
     <Router>
       <NavbarComp />
       <Routes>
-        <Route path="/" element={<HomePag />} />
+        <Route path="/home" element={<HomePag />} />
         <Route path="/login" element={<LoginPag />} />
         <Route path="/register" element={<RegisterPag />} />
       </Routes>
