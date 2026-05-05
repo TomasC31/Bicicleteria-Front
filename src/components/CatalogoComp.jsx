@@ -21,6 +21,14 @@ const Catalogo = ({ items }) => {
     mobile: { breakpoint: { max: 464, min: 0 }, items: 1, slidesToSlide: 1 }
   };
 
+    const simpleResponsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 0 },
+      items: 1,
+      slidesToSlide: 1
+    },
+  };
+
   // Función para renderizar el carousel
   const renderCarousel = () => (
     <Carousel
@@ -48,6 +56,22 @@ const Catalogo = ({ items }) => {
         </div>
       ))}
     </Carousel>
+  );
+
+    const simpleCarousel = () => (
+    <Carousel
+      responsive={simpleResponsive}
+      infinite={true}
+      itemClass="px-2"
+      className="mb-4">
+        {items.map((item) => (
+          <div key={item.id} className="d-flex justify-content-center">
+            <Card style={{ width: '20rem' }}>
+              {item.imagen && <Card.Img variant="top" src={item.imagen} alt={item.nombre} />}
+            </Card>
+          </div>
+        ))}
+      </Carousel>
   );
 
   //Renderizamos el grid
