@@ -1,6 +1,8 @@
 import CatalogoComp from '../components/CatalogoComp';
 import { productos } from '../Data/Productos';
 
+
+// Componente de la página de inicio, muestra el catálogo de productos y anuncios.
 export default function HomePag() {
   return (
     
