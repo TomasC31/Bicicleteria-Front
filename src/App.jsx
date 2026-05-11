@@ -1,8 +1,18 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import NavbarComp from './components/NavbarComp';
+import HomePag from './pages/HomePag';
+import LoginPag from './pages/LoginPag';
+import RegisterPag from './pages/RegisterPag';
+
 export default function App() {
   return (
-    <main className="app">
-      <h1>Vite + React listo</h1>
-      <p>Este proyecto ya tiene la base mínima para empezar a trabajar.</p>
-    </main>
-  )
+    <Router>
+      <NavbarComp />
+      <Routes>
+        <Route path="/" element={<HomePag />} />
+        <Route path="/login" element={<LoginPag />} />
+        <Route path="/register" element={<RegisterPag />} />
+      </Routes>
+    </Router>
+  );
 }
