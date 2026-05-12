@@ -36,4 +36,19 @@ useEffect(() => {
             setUser(userData);
         }
     }
+    
+    const logout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setToken(null);
+        setUser(null);
+  };
+
+    return (
+        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated: !!user }}>
+        {children}
+        </AuthContext.Provider>
+    );
 }
+
+export const useAuth = () => useContext(AuthContext);
