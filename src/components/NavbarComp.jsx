@@ -8,6 +8,7 @@ export default function Navbar() {
         <Link className="navbar-brand" to="/">
           DM Bike
         </Link>
+  
         <button
           className="navbar-toggler"
           type="button"
@@ -33,6 +34,7 @@ export default function Navbar() {
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/login">
+                
                 Login
               </Link>
             </li>
