@@ -1,11 +1,19 @@
 import { useState } from 'react';
 
+//Se encarga del formulario interactivo del login.
+//Maneja toda la logica, estado, comportamiento de los datos.
+
+//ValidateForm asegura que el mail tenga el formato correcto.
+//useState guarda lo que hay dentro de los inputs y los errores que puedan surgir.
+
 //Importo la funcion loginUsuario que esta dentro de Usuarios.js
 import { loginUsuario } from '../Data/Usuarios';
 
 //Permite redirigir al usuario a ptra pagina desde el codigo sin que tenga que hacer click en otro lado
 import { useNavigate } from "react-router-dom"
 
+
+// Componente de Login, recibe estos 3 datos y valida.
 export default function LoginComp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,18 +38,19 @@ export default function LoginComp() {
     return newErrors;
   };
 
-
+// Para redirigir cuando me logueo.
   const navigate = useNavigate();
 
+  // Cuando hago click en loguearse ("INGRESAR"), se ejecuta todo lo que esta dentro de esta funcion.
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Evita que la página se recargue al enviar el formulario
 
     const newErrors = validateForm();
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-
     
     // Acá tiene que ir la llamada a la API cuando tengamos el backend
     const resultado = loginUsuario(email, password);
@@ -52,9 +61,12 @@ export default function LoginComp() {
     }
 
     console.log("Login exitoso: ", resultado.usuario);
-    navigate("/home")
+    navigate("/")
   };
 
+
+  //Este return hace que muestre el formulario del login, con los campos.
+  //Si llega a haber un error, tambien lo muestra.
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3">
@@ -108,6 +120,7 @@ export default function LoginComp() {
       >
         Ingresar
       </button>
+
     </form>
   );
 }

@@ -1,0 +1,211 @@
+/* ==========================================
+   SIMPLE CAROUSEL - Estilos CSS
+   Carrusel sin librerías externas con CSS Scroll Snap
+   ========================================== */
+
+/* Wrapper principal del carrusel */
+.simple-carousel-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+/* Contenedor con scroll snap */
+.simple-carousel-container {
+  /* Habilita scroll horizontal */
+  overflow-x: scroll;
+  overflow-y: hidden;
+  
+  /* Display flex para que los items se alineen horizontalmente */
+  display: flex;
+  
+  /* CSS Scroll Snap - Alinea los items al snap point más cercano */
+  scroll-snap-type: x mandatory;
+  
+  /* Scroll suave en navegadores que lo soportan */
+  scroll-behavior: smooth;
+  
+  /* Ancho del contenedor */
+  width: 100%;
+  
+  /* Oculta la barra de scroll en navegadores webkit (Chrome, Safari) */
+  scrollbar-width: none;
+}
+
+/* Oculta scrollbar en Chrome, Safari */
+.simple-carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Cada slide ocupa el 100% del ancho y no se encoge */
+.simple-carousel-slide {
+  /* flex: 0 0 100% = flex-grow: 0, flex-shrink: 0, flex-basis: 100% */
+  /* Esto asegura que cada slide sea exactamente del tamaño del contenedor */
+  flex: 0 0 100%;
+  
+  /* Punto de snap - alinea el inicio del elemento con el inicio del scroll */
+  scroll-snap-align: start;
+  
+  /* Snap es obligatorio para este eje */
+  scroll-snap-stop: always;
+  
+  /* Padding para separación */
+  padding: 0;
+  
+  /* Propiedades de visualización */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+/* Card personalizada que contiene la imagen y la información */
+.simple-carousel-card {
+  width: 90%;
+  max-width: 500px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wrapper de la imagen */
+.simple-carousel-image-wrapper {
+  width: 100%;
+  height: 300px;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Imagen - se ajusta al contenedor manteniendo proporción */
+.simple-carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Body de la card con información */
+.simple-carousel-body {
+  padding: 20px;
+  background: white;
+}
+
+/* Título del producto */
+.simple-carousel-title {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Descripción */
+.simple-carousel-description {
+  margin: 0 0 10px 0;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Precio */
+.simple-carousel-price {
+  margin: 0 0 15px 0;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #28a745;
+}
+
+/* Botón Comprar */
+.simple-carousel-btn {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.simple-carousel-btn:hover {
+  background: #0056b3;
+}
+
+.simple-carousel-btn:active {
+  transform: scale(0.98);
+}
+
+/* Indicadores de página (dots) */
+.simple-carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 0;
+}
+
+.simple-carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ddd;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .simple-carousel-slide {
+    min-height: 350px;
+  }
+
+  .simple-carousel-card {
+    width: 95%;
+  }
+
+  .simple-carousel-image-wrapper {
+    height: 250px;
+  }
+
+  .simple-carousel-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+  .simple-carousel-slide {
+    min-height: 300px;
+  }
+
+  .simple-carousel-card {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .simple-carousel-image-wrapper {
+    height: 200px;
+  }
+
+  .simple-carousel-body {
+    padding: 15px;
+  }
+
+  .simple-carousel-title {
+    font-size: 1.1rem;
+  }
+
+  .simple-carousel-description {
+    font-size: 0.85rem;
+  }
+
+  .simple-carousel-price {
+    font-size: 1.1rem;
+  }
+}

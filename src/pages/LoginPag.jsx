@@ -1,5 +1,6 @@
 import LoginComp from '../components/LoginComp';
 
+//Se encarga de lo visual del login, diseño, colores, tamaños.
 
 export default function LoginPag() {
   return (
