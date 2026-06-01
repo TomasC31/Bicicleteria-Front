@@ -64,7 +64,7 @@ export const registrarUsuario = (nombre, apellido, mail, password) => {
         rol: "usuario"
     };
 
-    //Lo agrego al array y lo guardo en el LocalStorage
+//Lo agrego al array y lo guardo en el LocalStorage
 //... Copia todos los usuarios existentes en un array nuevo y le agrega el usuario nuevo al final
     const usuariosActualizados = [...usuarios, nuevoUsuario];
     localStorage.setItem("usuarios", JSON.stringify(usuariosActualizados));
@@ -73,7 +73,6 @@ export const registrarUsuario = (nombre, apellido, mail, password) => {
 
 
 //Funcion login, recibe el email y pass, y pa busca en el LS, verifica si coincide
-
 export const loginUsuario = (mail, password) => {
     const usuarios = getUsuarios();
 
