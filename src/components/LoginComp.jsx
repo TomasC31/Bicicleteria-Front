@@ -13,7 +13,7 @@ import { loginUsuario } from '../Data/Usuarios';
 import { useNavigate } from "react-router-dom"
 
 
-// Componente de Login, recibe estos 3 datos y valida.
+// Componente de Login, recibe estos 2 datos del formulario, y el estado de los errores, este sirve para mostrar el mensaje de error si no completo las casillas
 export default function LoginComp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
