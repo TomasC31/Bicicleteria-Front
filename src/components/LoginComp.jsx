@@ -41,8 +41,7 @@ export default function LoginComp() {
 // Para redirigir cuando me logueo.
   const navigate = useNavigate();
 
-
-  // Cuando hago click en loguearse, se ejecuta todo lo que esta dentro de esta funcion.
+  // Cuando hago click en loguearse ("INGRESAR"), se ejecuta todo lo que esta dentro de esta funcion.
   const handleSubmit = (e) => {
     e.preventDefault(); // Evita que la página se recargue al enviar el formulario
 
@@ -52,7 +51,6 @@ export default function LoginComp() {
       setErrors(newErrors);
       return;
     }
-
     
     // Acá tiene que ir la llamada a la API cuando tengamos el backend
     const resultado = loginUsuario(email, password);
@@ -67,7 +65,7 @@ export default function LoginComp() {
   };
 
 
-  //Este return hace que muestre el formulario del login, con los campos y todo eso.
+  //Este return hace que muestre el formulario del login, con los campos.
   //Si llega a haber un error, tambien lo muestra.
   return (
     <form onSubmit={handleSubmit}>
@@ -122,6 +120,7 @@ export default function LoginComp() {
       >
         Ingresar
       </button>
+
     </form>
   );
 }
