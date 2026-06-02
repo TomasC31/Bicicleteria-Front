@@ -8,13 +8,13 @@ export default function HomePag() {
   return (
     <div>
       <div className="container mt-4">
-        <h1 className="mb-4">Anuncion</h1>
+        <h1 className="mb-4">Anuncios</h1>
         <CatalogoComp items={productos} type="simple" />
       </div>
 
       <div className='home-page'>
         <div className="container mt-4">
-          <h1 className="mb-4">Biciletas </h1>
+          <h1 className="mb-4">Bicicletas </h1>
           <CatalogoComp items={productos} type="multi" />
         </div>
 
