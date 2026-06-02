@@ -36,3 +36,11 @@ export const productos = [
     imagen: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=400&h=300&q=80'
   }
 ];
+
+
+// Función para inicializar los productos en localStorage si no existen
+export const inicializarProductos = () => {
+  if (!localStorage.getItem('productos')) {
+    localStorage.setItem('productos', JSON.stringify(productos));
+  }
+};

@@ -1,52 +1,53 @@
-import {createContext, userContext,useState, useEffect} from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { loginUsuario } from '../Data/Usuarios'; // Importo la función de login de prueba
 
 const AuthContext = createContext();
 
-export function AuthProvider({children}) {
-    const [user, setUser] = useState(null);
-const [token,setToket] = useState(() => localStrorage.getItem('token') || null);
+export function AuthProvider({ children }) {
+    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null); 
+    const [token, setToken] = useState(() => localStorage.getItem('token') || null); 
 
-useEffect(() => {
-
-    // reemplzara estas lineas en caso de que tengamos un backend y podamos validar el token con el servidor
-    if (token){
-        const savedUser = JOSN.parse(localStorage.getItem('user'));
-        if(savedUser) setUser(savedUser);
-    }
-
+    useEffect(() => {
+        if (token) {
+            const savedUser = JSON.parse(localStorage.getItem('user'));
+            if (savedUser) setUser(savedUser);
+        }
     }, [token]);
 
-    const login = async (ElementInternals,password) => {
-        //usar en caso de contar con bakend
-        const response = await fetch('/appi.loggin',{
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email, password}),
-        });
+    const login = async (mail, password) => {
+        // MOCK TEMPORAL: Usamos tu archivo Usuarios.js en vez del fetch al backend
+        const resultado = loginUsuario(mail, password);
 
-        if (!response.ok){
-            throw new Error('Error en el login');
-            const data = await response.json();
-            const token = data.token;
-            const userData = data.user; // obtenemos el id, nombre, mail, rol del usuario
-
-            localStoraje.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(userData));
-            setToket(token);
-            setUser(userData);
+        if (!resultado.exito) {
+            throw new Error(resultado.mensaje);
         }
-    }
-    
+
+        // Mapeamos los datos locales para que tengan el formato exacto que tendrá tu API en el futuro
+        const userData = {
+            id: resultado.usuario.Id,
+            nombre: resultado.usuario.Nombre,
+            apellido: resultado.usuario.Apellido,
+            mail: resultado.usuario.mail,
+            rol: resultado.usuario.Rol 
+        };
+        const accessToken = "token_de_prueba_12345"; // Simulo un token JWT
+
+        localStorage.setItem('token', accessToken); 
+        localStorage.setItem('user', JSON.stringify(userData)); 
+        setToken(accessToken); 
+        setUser(userData); 
+    };
+
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         setToken(null);
         setUser(null);
-  };
+    };
 
     return (
         <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated: !!user }}>
-        {children}
+            {children}
         </AuthContext.Provider>
     );
 }

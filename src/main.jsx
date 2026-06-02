@@ -7,6 +7,12 @@ import './index.css'
 import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 
+import { AuthProvider } from './Context/AuthContext'; // Para envolver la app con el contexto de autenticación
+
+//Inicializo los productos antes de REACTDOM para que los productos
+//Esten cargados en el LS antes de que se renderice cualquier componente
+import { inicializarProductos } from "./Data/Productos"
+inicializarProductos();
 
 import { inicializarUsuarios } from "./Data/Usuarios"
 //Inicializo los usuarios antes de REACTDOM para que los usuarios
@@ -15,6 +21,9 @@ inicializarUsuarios();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    {/* Envuelvo la app con el AuthProvider para que toda la app tenga acceso al contexto de autenticación */}
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </React.StrictMode>,
 )

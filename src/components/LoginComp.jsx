@@ -1,17 +1,11 @@
 import { useState } from 'react';
+import { useAuth } from '../Context/AuthContext'; // Importantisimo para avisar a toda la app que me logueo.
 
-//Se encarga del formulario interactivo del login.
-//Maneja toda la logica, estado, comportamiento de los datos.
+// Se encarga del formulario interactivo del login.
+// Maneja toda la logica, estado, comportamiento de los datos.
 
-//ValidateForm asegura que el mail tenga el formato correcto.
-//useState guarda lo que hay dentro de los inputs y los errores que puedan surgir.
-
-//Importo la funcion loginUsuario que esta dentro de Usuarios.js
-import { loginUsuario } from '../Data/Usuarios';
-
-//Permite redirigir al usuario a ptra pagina desde el codigo sin que tenga que hacer click en otro lado
-import { useNavigate } from "react-router-dom"
-
+// Permite redirigir al usuario a otra pagina desde el codigo sin que tenga que hacer click en otro lado
+import { useNavigate } from "react-router-dom";
 
 // Componente de Login, recibe estos 2 datos del formulario, y el estado de los errores, este sirve para mostrar el mensaje de error si no completo las casillas
 export default function LoginComp() {
@@ -19,6 +13,11 @@ export default function LoginComp() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
+  // Extraigo la funcion login del contexto para usarla cuando el usuario se loguee exitosamente, y asi avisar a toda la app que hay un usuario logueado.
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  // ValidateForm asegura que el mail tenga el formato correcto.
   // Validaciones
   const validateForm = () => {
     const newErrors = {};
@@ -38,35 +37,28 @@ export default function LoginComp() {
     return newErrors;
   };
 
-// Para redirigir cuando me logueo.
-  const navigate = useNavigate();
-
-  // Cuando hago click en loguearse ("INGRESAR"), se ejecuta todo lo que esta dentro de esta funcion.
-  const handleSubmit = (e) => {
+  // Funcion para esperar la respuesta del login y si es exitoso, redirigir a la pantalla principal.
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Evita que la página se recargue al enviar el formulario
-
+    
     const newErrors = validateForm();
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    
-    // Acá tiene que ir la llamada a la API cuando tengamos el backend
-    const resultado = loginUsuario(email, password);
 
-    if(!resultado.exito){
-      setErrors({submit: resultado.mensaje});
-      return;
+    try {
+      await login(email, password); // Llamo a la función de login del contexto
+      navigate("/"); // Redirijo a la página principal después de un login exitoso
+
+    } catch (error) {
+      setErrors({ submit: "Error al intentar iniciar sesión" });
     }
-
-    console.log("Login exitoso: ", resultado.usuario);
-    navigate("/")
   };
 
-
-  //Este return hace que muestre el formulario del login, con los campos.
-  //Si llega a haber un error, tambien lo muestra.
+  // Este return hace que muestre el formulario del login, con los campos.
+  // Si llega a haber un error, tambien lo muestra.
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3">
@@ -104,9 +96,11 @@ export default function LoginComp() {
           <div className="invalid-feedback">{errors.password}</div>
         )}
       </div>
-        {errors.submit &&(
-          <div className="alert alert-danger mb-3">{errors.submit}</div>
-        )}
+      
+      {errors.submit &&(
+        <div className="alert alert-danger mb-3">{errors.submit}</div>
+      )}
+      
       <button
         type="submit"
         className="btn btn-lg w-100"
@@ -120,7 +114,6 @@ export default function LoginComp() {
       >
         Ingresar
       </button>
-
     </form>
   );
 }
