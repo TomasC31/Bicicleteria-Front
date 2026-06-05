@@ -2,11 +2,19 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Button, Card } from 'react-bootstrap';
 import { useAuth } from '../../Context/AuthContext';
+import React, { useState } from 'react';
+import AddProductForm from '../AddProductForm';
+import ABMProducto from '../ABMProducto'; // Importar el nuevo componente
 
 // Carrusel de múltiples items - Muestra 3-4 productos según el tamaño de pantalla
 const MultiItemCarousel = ({ items }) => {
   const { user } = useAuth(); //Traigo al usuario que está logueado para mostrar productos según su rol
-  const safeItems = (items || []).filter(Boolean);
+  
+  const [showForm, setShowForm] = useState(false);
+  const [showABMMenu, setShowABMMenu] = useState(false);
+  const [carouselItems, setCarouselItems] = useState(items || []);
+
+  const safeItems = (carouselItems || []).filter(Boolean);
 
   const responsive = {
     superLargeDesktop: { breakpoint: { max: 4000, min: 1024 }, items: 4, slidesToSlide: 4 },
@@ -15,22 +23,68 @@ const MultiItemCarousel = ({ items }) => {
     mobile: { breakpoint: { max: 464, min: 0 }, items: 1, slidesToSlide: 1 }
   };
 
-const handleAgregarProducto = () => {
-  alert("Aca se va a abrir el formulario para agregar el producto")
-}
+  const handleGestionarProductos = () => {
+    setShowABMMenu(true);
+  };
 
-return (
+  const handleCancelABM = () => {
+    setShowABMMenu(false);
+  };
+
+  const handleShowAddForm = () => {
+    setShowABMMenu(false);
+    setShowForm(true);
+  };
+
+  const handleModifyProduct = () => {
+    console.log("Modificar producto");
+    setShowABMMenu(false);
+    // Lógica para modificar producto
+  };
+
+  const handleDeleteProduct = () => {
+    console.log("Eliminar producto");
+    setShowABMMenu(false);
+    // Lógica para eliminar producto
+  };
+
+  const handleAddProduct = (newProduct) => {
+    setCarouselItems([...carouselItems, newProduct]);
+    setShowForm(false);
+  };
+
+  const handleCancelAdd = () => {
+    setShowForm(false);
+  };
+
+  return (
     <div>
-      {/* BOTON SOLO PARA EL ADMINISTRADOR */}
-      {user && user.rol === 'admin' && (
+      {user && user.rol === 'admin' && !showABMMenu && !showForm && (
         <div style={{ textAlign: 'center', marginBottom: '15px' }}>
           <button 
-            onClick={handleAgregarProducto} 
-            style={{ padding: '10px 20px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
-          > Agregar Nuevo Producto </button>
+            onClick={handleGestionarProductos} 
+            style={{ padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+          >
+            Gestionar Productos
+          </button>
         </div>
       )}
-      {/* ================================================ */}
+
+      {showABMMenu && (
+        <ABMProducto
+          onAdd={handleShowAddForm}
+          onModify={handleModifyProduct}
+          onDelete={handleDeleteProduct}
+          onCancel={handleCancelABM}
+        />
+      )}
+
+      {showForm && (
+        <AddProductForm 
+          onAddProduct={handleAddProduct}
+          onCancel={handleCancelAdd}
+        />
+      )}
 
       {!safeItems.length ? (
         <p style={{ textAlign: 'center' }}>No hay productos disponibles en esta sección.</p>
