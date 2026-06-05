@@ -105,7 +105,8 @@ const MultiItemCarousel = ({ items }) => {
                 <Card.Body>
                   <Card.Title>{item.nombre}</Card.Title>
                   <Card.Text>{item.descripcion}</Card.Text>
-                  <Card.Text className="fw-bold">Precio: {item.precio}</Card.Text>
+                  <Card.Text className="fw-bold"> Precio: ${new Intl.NumberFormat('es-AR').format(item.precio)}
+                  </Card.Text>
                   <Button variant="primary">Comprar</Button>
                 </Card.Body>
               </Card>
