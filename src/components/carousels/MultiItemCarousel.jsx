@@ -4,14 +4,19 @@ import { Button, Card } from 'react-bootstrap';
 import { useAuth } from '../../Context/AuthContext';
 import React, { useState } from 'react';
 import AddProductForm from '../AddProductForm';
-import ABMProducto from '../ABMProducto'; // Importar el nuevo componente
+import ABMProducto from '../ABMProducto';
+import DeleteProductList from '../DeleteProductList';
+import ModifyProductList from '../ModifyProductList';
 
 // Carrusel de múltiples items - Muestra 3-4 productos según el tamaño de pantalla
 const MultiItemCarousel = ({ items }) => {
-  const { user } = useAuth(); //Traigo al usuario que está logueado para mostrar productos según su rol
-  
+  const { user } = useAuth();
+
   const [showForm, setShowForm] = useState(false);
   const [showABMMenu, setShowABMMenu] = useState(false);
+  const [showDeleteList, setShowDeleteList] = useState(false);
+  const [showModifyList, setShowModifyList] = useState(false);
+  const [productToEdit, setProductToEdit] = useState(null);
   const [carouselItems, setCarouselItems] = useState(items || []);
 
   const safeItems = (carouselItems || []).filter(Boolean);
@@ -23,46 +28,62 @@ const MultiItemCarousel = ({ items }) => {
     mobile: { breakpoint: { max: 464, min: 0 }, items: 1, slidesToSlide: 1 }
   };
 
-  const handleGestionarProductos = () => {
-    setShowABMMenu(true);
-  };
-
-  const handleCancelABM = () => {
-    setShowABMMenu(false);
-  };
+  const handleGestionarProductos = () => setShowABMMenu(true);
+  const handleCancelABM = () => setShowABMMenu(false);
 
   const handleShowAddForm = () => {
+    setProductToEdit(null);
     setShowABMMenu(false);
     setShowForm(true);
   };
 
-  const handleModifyProduct = () => {
-    console.log("Modificar producto");
+  const handleShowModifyList = () => {
     setShowABMMenu(false);
-    // Lógica para modificar producto
+    setShowModifyList(true);
   };
 
-  const handleDeleteProduct = () => {
-    console.log("Eliminar producto");
+  const handleSelectProductToModify = (product) => {
+    setProductToEdit(product);
+    setShowModifyList(false);
+    setShowForm(true);
+  };
+
+  const handleCancelModify = () => {
+    setShowModifyList(false);
+  };
+
+  const handleShowDeleteList = () => {
     setShowABMMenu(false);
-    // Lógica para eliminar producto
+    setShowDeleteList(true);
   };
 
-  const handleAddProduct = (newProduct) => {
-    setCarouselItems([...carouselItems, newProduct]);
-    setShowForm(false);
+  const handleCancelDelete = () => setShowDeleteList(false);
+
+  const handleDeleteProduct = (productId) => {
+    setCarouselItems(carouselItems.filter(item => item.id !== productId));
   };
 
-  const handleCancelAdd = () => {
+  const handleSaveProduct = (productData) => {
+    if (productToEdit) {
+      setCarouselItems(carouselItems.map(item => item.id === productData.id ? productData : item));
+    } else {
+      setCarouselItems([...carouselItems, productData]);
+    }
     setShowForm(false);
+    setProductToEdit(null);
+  };
+
+  const handleCancelForm = () => {
+    setShowForm(false);
+    setProductToEdit(null);
   };
 
   return (
     <div>
-      {user && user.rol === 'admin' && !showABMMenu && !showForm && (
+      {user && user.rol === 'admin' && !showABMMenu && !showForm && !showDeleteList && !showModifyList && (
         <div style={{ textAlign: 'center', marginBottom: '15px' }}>
-          <button 
-            onClick={handleGestionarProductos} 
+          <button
+            onClick={handleGestionarProductos}
             style={{ padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
           >
             Gestionar Productos
@@ -73,16 +94,33 @@ const MultiItemCarousel = ({ items }) => {
       {showABMMenu && (
         <ABMProducto
           onAdd={handleShowAddForm}
-          onModify={handleModifyProduct}
-          onDelete={handleDeleteProduct}
+          onModify={handleShowModifyList}
+          onDelete={handleShowDeleteList}
           onCancel={handleCancelABM}
         />
       )}
 
       {showForm && (
-        <AddProductForm 
-          onAddProduct={handleAddProduct}
-          onCancel={handleCancelAdd}
+        <AddProductForm
+          onSave={handleSaveProduct}
+          onCancel={handleCancelForm}
+          productToEdit={productToEdit}
+        />
+      )}
+
+      {showDeleteList && (
+        <DeleteProductList
+          items={safeItems}
+          onDelete={handleDeleteProduct}
+          onCancel={handleCancelDelete}
+        />
+      )}
+
+      {showModifyList && (
+        <ModifyProductList
+          items={safeItems}
+          onSelect={handleSelectProductToModify}
+          onCancel={handleCancelModify}
         />
       )}
 
@@ -118,4 +156,4 @@ const MultiItemCarousel = ({ items }) => {
   );
 };
 
-export default MultiItemCarousel;
+      export default MultiItemCarousel;

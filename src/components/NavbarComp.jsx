@@ -35,7 +35,7 @@ export default function Navbar() {
           </div>
 
           <div className="navbar-nav mx-auto">
-            {isAuthenticated && (
+            {isAuthenticated && user && (
               <span className="navbar-text">
                 Hola, {user.nombre}
               </span>

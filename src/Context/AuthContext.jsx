@@ -4,15 +4,18 @@ import { loginUsuario } from '../Data/Usuarios'; // Importo la función de login
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null); 
-    const [token, setToken] = useState(() => localStorage.getItem('token') || null); 
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(() => localStorage.getItem('token') || null);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         if (token) {
             const savedUser = JSON.parse(localStorage.getItem('user'));
-            if (savedUser) setUser(savedUser);
+            if (savedUser) {
+                setUser(savedUser);
+            }
         }
-    }, [token]);
+    }, []);
 
     const login = async (mail, password) => {
         // MOCK TEMPORAL: Usamos tu archivo Usuarios.js en vez del fetch al backend
