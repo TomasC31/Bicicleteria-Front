@@ -1,10 +1,16 @@
+import React, { useState } from 'react';
+import ABMProducto from '../components/ABMProducto';
+import AddProductForm from '../components/AddProductForm';
+import ModifyProductForm from '../components/ModifyProductForm';
+import DeleteProductForm from '../components/DeleteProductForm';
 import CatalogoComp from '../components/CatalogoComp';
-
 import { productos } from '../Data/Productos';
 
 
 // Componente de la página de inicio, muestra el catálogo de productos con diferentes tipos de carruseles
 export default function HomePag() {
+  const [showAddForm, setShowAddForm] = useState(false);
+
   return (
     <div>
       <div className="container mt-4">

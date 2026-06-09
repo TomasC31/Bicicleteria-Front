@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './AddProductForm.css';
 
+
+// Se usa para agregar o modificar un producto, cuando guardamos, se llama a onSave y onCancel para cerrar el form sin guardar nada.
 const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -8,6 +10,8 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
 
+
+  // Si productToEdit cambia, se actualizan los campos del formulario, esto es mueno porque me muestra la info que ya existe.
   useEffect(() => {
     if (productToEdit) {
       setName(productToEdit.nombre);
@@ -18,18 +22,22 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
     }
   }, [productToEdit]);
 
+
+  //Cuando el usuario elige una imagen, se guarda el archivo y se crea una vista previa para mostrarla en el form.
+  //El if hace que solo se ejecute si el usuario selecciona un archivo.
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setImage(file);
-      setImagePreview(URL.createObjectURL(file));
+      const file = e.target.files[0]; // obtengo el archivo que seleccioné
+      setImage(file); // Guardo el archivo para enviarlo al back
+      setImagePreview(URL.createObjectURL(file)); // Creo una URL temporal para mostrar la vista previa de la imagen
     }
   };
 
+  // Cuando el usuario envia el form, se crea un objeto con los datos del producto.
   const handleSubmit = (e) => {
     e.preventDefault();
     const productData = {
-      id: productToEdit ? productToEdit.id : Date.now(),
+      id: productToEdit ? productToEdit.id : Date.now(), // Si estoy editando, mantengo el mismo ID, sino creo uno nuevo con Date.now()
       nombre: name,
       descripcion: description,
       precio: parseFloat(price),
