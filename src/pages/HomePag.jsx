@@ -18,7 +18,7 @@ const [productos, setListaProductos] = useState([]);
 useEffect(() => {
   const cargarProductos = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/Products`); // Reemplaza con tu URL real
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/Products`); // Reemplaza con tu URL real
       if(!response.ok) {
         throw new Error('Error al conectar con el backend');
       }
