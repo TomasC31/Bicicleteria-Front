@@ -1,5 +1,6 @@
 import React from 'react';
 import './ABMProducto.css';
+import ModifyProductList from '../../ModifyProductList';
 
 
 //Cuando aprieto el boton de gestionar los productos, se abre esto para preguntarme que es lo que quiero hacer.

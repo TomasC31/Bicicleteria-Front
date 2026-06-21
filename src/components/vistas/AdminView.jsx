@@ -4,6 +4,8 @@ import ABMProducto from '../ABMProducto';
 import { productsAPI } from '../../services/api';
 import { productos as productosFalsos } from '../../Data/Productos';
 
+
+
 /**
  * Vista de administrador.
  * Incluye el ABM de productos y el catálogo completo.
@@ -99,7 +101,6 @@ export default function AdminView() {
         onModify={handleUpdate} 
         onDelete={handleDelete} 
         onCancel={handleCancel}
-
       />
 
       <hr />
