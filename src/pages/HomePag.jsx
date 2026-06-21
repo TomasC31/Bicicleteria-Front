@@ -7,6 +7,8 @@ import CatalogoComp from '../components/CatalogoComp';
 import { productos as productosFalsos } from '../Data/Productos';
 
 
+
+
 // Componente de la página de inicio, muestra el catálogo de productos con diferentes tipos de carruseles
 export default function HomePag() {
   const [showAddForm, setShowAddForm] = useState(false);
