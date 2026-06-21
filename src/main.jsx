@@ -22,6 +22,7 @@ import { inicializarUsuarios } from "./Data/Usuarios"
 //Esten cargados en el LS antes de que se renderice cualquier componente
 inicializarUsuarios();
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     {/* Envuelvo la app con el AuthProvider para que toda la app tenga acceso al contexto de autenticación */}
