@@ -1,7 +1,6 @@
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 async function request(endpoint, options = {}) {
-    console.log('0. request:', endpoint, options);//debugin
 
     // headers
     const headers = new Headers(options.headers || {});
@@ -11,9 +10,7 @@ async function request(endpoint, options = {}) {
     const token = localStorage.getItem('token');
     if (token && !endpoint.includes('/Auth/login')) {
         headers.set('Authorization', `Bearer ${token}`);
-        console.log('1.Token adjuntado:', token);
     }
-    console.log('1.Token adjuntado:', token); // Debugging: Verificar si el token se adjunta correctamente
     // se asume un JSON si no se indica el CONTENT-TYPE
     if (!headers.has('Content-Type') && options.body) {
         headers.set('Content-Type', 'application/json');
@@ -24,7 +21,6 @@ async function request(endpoint, options = {}) {
         ...options,
         headers,
     };
-    console.log('2. Configuración de la petición:', config); // Debugging: Verificar la configuración final de la petición
     // si el body es un objeto, convertir a JSON
     if (config.body && typeof config.body === 'object') {
         config.body = JSON.stringify(config.body);
@@ -48,7 +44,6 @@ async function request(endpoint, options = {}) {
         throw new Error('Sesión expirada');
     }
 
-    console.log('3. Respuesta del servidor:', response); // Debugging: Verificar la respuesta del servidor
 
     // Manejo de respuesta sin contenido
     if (response.status === 204) {
@@ -85,5 +80,53 @@ export { request };
 
 export const authAPI = { login, register };
 
-window.request = request;
-window.authAPI = authAPI;
+// ---------- Carrusel ----------
+const getAllCarrusel = () => request('/Carrusel');
+const getCarruselById = (id) => request(`/Carrusel/${id}`);
+const createCarrusel = (data) => request('/Carrusel', { method: 'POST', body: data });
+const updateCarrusel = (id, data) => request(`/Carrusel/${id}`, { method: 'PUT', body: data });
+const removeCarrusel = (id) => request(`/Carrusel/${id}`, { method: 'DELETE' });
+
+export const carruselAPI = {
+  getAll: getAllCarrusel,
+  getById: getCarruselById,
+  create: createCarrusel,
+  update: updateCarrusel,
+  remove: removeCarrusel,
+};
+
+// ---------- Categorías ----------
+const getAllCategories = () => request('/Categories');
+const getCategoryById = (id) => request(`/Categories/${id}`);
+const createCategory = (data) => request('/Categories', { method: 'POST', body: data });
+const updateCategory = (id, data) => request(`/Categories/${id}`, { method: 'PUT', body: data });
+const removeCategory = (id) => request(`/Categories/${id}`, { method: 'DELETE' });
+
+export const categoriesAPI = {
+  getAll: getAllCategories,
+  getById: getCategoryById,
+  create: createCategory,
+  update: updateCategory,
+  remove: removeCategory,
+};
+
+// ---------- Productos ----------
+const getAllProducts = () => request('/Products');
+const getProductById = (id) => request(`/Products/${id}`);
+const createProduct = (data) => request('/Products', { method: 'POST', body: data });
+const updateProduct = (id, data) => request(`/Products/${id}`, { method: 'PUT', body: data });
+const removeProduct = (id) => request(`/Products/${id}`, { method: 'DELETE' });
+const getCachedProducts = () => request('/Products/cached');
+const syncCache = () => request('/Products/sync-cache', { method: 'POST' });
+const debugProducts = () => request('/Products/debug');
+
+export const productsAPI = {
+  getAll: getAllProducts,
+  getById: getProductById,
+  create: createProduct,
+  update: updateProduct,
+  remove: removeProduct,
+  getCached: getCachedProducts,
+  syncCache,
+  debug: debugProducts,
+};

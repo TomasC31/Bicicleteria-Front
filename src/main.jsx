@@ -7,7 +7,6 @@ import './index.css'
 import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 import { request } from './services/api';
-window.request = request;
 
 import { AuthProvider } from './Context/AuthContext'; // Para envolver la app con el contexto de autenticación
 

@@ -17,13 +17,10 @@ export function AuthProvider({ children }) {
 
     const login = async (mail, password) => {
     try {
-        console.log(' AuthContext.login llamado con:', mail, password);
         const data = await authAPI.login(mail, password);
-        console.log('Respuesta del backend:', data);
         // data = { accessToken: string, usuario: object }
 
         const accessToken = data.accessToken;
-        console.log('autho Token recibido del backend:', accessToken);
         const userData = {
             id: data.user.id,           // Ajustá según el nombre exacto que venga del backend
             nombre: data.user.firstName,
