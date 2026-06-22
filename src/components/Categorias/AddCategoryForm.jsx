@@ -5,7 +5,8 @@ const AddCategoryForm = ({ onSave, onCancel, categoryToEdit }) => {
 
   useEffect(() => {
     if (categoryToEdit) {
-      setNombre(categoryToEdit.nombre || '');
+      // Acepta tanto 'nombre' (mapeado) como 'name' (original del backend)
+      setNombre(categoryToEdit.nombre || categoryToEdit.name || '');
     } else {
       setNombre('');
     }
@@ -14,10 +15,12 @@ const AddCategoryForm = ({ onSave, onCancel, categoryToEdit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!nombre.trim()) return;
+
     if (categoryToEdit) {
-      onSave(categoryToEdit.id, { nombre: nombre.trim() });
+      // Enviamos 'name' que es lo que espera el backend
+      onSave(categoryToEdit.id, { name: nombre.trim() });
     } else {
-      onSave({ nombre: nombre.trim() });
+      onSave({ name: nombre.trim() });
     }
   };
 
