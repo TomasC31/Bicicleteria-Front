@@ -1,17 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import './AddProductForm.css';
+// Importamos categoriesAPI para traer las categorias reales de la base de datos
+import { categoriesAPI } from '../services/api';
 
-
-// Se usa para agregar o modificar un producto, cuando guardamos, se llama a onSave y onCancel para cerrar el form sin guardar nada.
 const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
+  
+  // ESTADOS NUEVOS: Uno para guardar la seleccion y otro para listar todas las opciones
+  const [categoryId, setCategoryId] = useState('');
+  const [listaCategorias, setListaCategorias] = useState([]);
 
+  // useEffect Nuevo: Va a buscar las categorias al servidor apenas abre el formulario
+  useEffect(() => {
+    const obtenerCategorias = async () => {
+      try {
+        const datos = await categoriesAPI.getAll();
+        setListaCategorias(datos || []);
+      } catch (error) {
+        console.error("No se pudieron cargar las categorias:", error);
+        // Plan B: Si falla la red de Alan, dejamos unas basicas fijas por seguridad
+        setListaCategorias([
+          { id: 2, name: 'Bicicletas' },
+          { id: 3, name: 'Partes' }
+        ]);
+      }
+    };
+    obtenerCategorias();
+  }, []);
 
-  // Si productToEdit cambia, se actualizan los campos del formulario, esto es mueno porque me muestra la info que ya existe.
+  // Si cambia productToEdit (modo modificar), llenamos tambien el campo de la categoria
   useEffect(() => {
     if (productToEdit) {
       setName(productToEdit.nombre);
@@ -19,29 +40,29 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
       setPrice(productToEdit.precio);
       setImage(productToEdit.imagen);
       setImagePreview(productToEdit.imagen);
+      // Guardamos la categoria que ya tenia asignada
+      setCategoryId(productToEdit.categoriaId || '');
     }
   }, [productToEdit]);
 
-
-  //Cuando el usuario elige una imagen, se guarda el archivo y se crea una vista previa para mostrarla en el form.
-  //El if hace que solo se ejecute si el usuario selecciona un archivo.
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]; // obtengo el archivo que seleccioné
-      setImage(file); // Guardo el archivo para enviarlo al back
-      setImagePreview(URL.createObjectURL(file)); // Creo una URL temporal para mostrar la vista previa de la imagen
+      const file = e.target.files[0];
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
-  // Cuando el usuario envia el form, se crea un objeto con los datos del producto.
   const handleSubmit = (e) => {
     e.preventDefault();
     const productData = {
-      id: productToEdit ? productToEdit.id : Date.now(), // Si estoy editando, mantengo el mismo ID, sino creo uno nuevo con Date.now()
+      id: productToEdit ? productToEdit.id : Date.now(),
       nombre: name,
       descripcion: description,
       precio: parseFloat(price),
       imagen: imagePreview,
+      // Pasamos el ID de la categoria elegida convertido a numero entero
+      categoriaId: parseInt(categoryId), 
     };
     onSave(productData);
   };
@@ -50,6 +71,7 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
     <div className="add-product-form-container">
       <form onSubmit={handleSubmit}>
         <h2>{productToEdit ? 'Modificar Producto' : 'Agregar Nuevo Producto'}</h2>
+        
         <div className="form-group">
           <label>Nombre</label>
           <input
@@ -59,6 +81,7 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
             required
           />
         </div>
+        
         <div className="form-group">
           <label>Descripción</label>
           <input
@@ -68,6 +91,25 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
             required
           />
         </div>
+
+        {/* INPUT NUEVO: Selector de Categorias */}
+        <div className="form-group">
+          <label>Categoría</label>
+          <select
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+            required
+            className="form-control"
+          >
+            <option value="">-- Selecciona una Categoría --</option>
+            {listaCategorias.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        
         <div className="form-group">
           <label>Precio</label>
           <input
@@ -77,6 +119,7 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
             required
           />
         </div>
+        
         <div className="form-group">
           <label>Imagen</label>
           <input
@@ -86,6 +129,7 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
           />
           {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
         </div>
+        
         <div className="form-actions">
           <button type="submit">{productToEdit ? 'Guardar Cambios' : 'Agregar Producto'}</button>
           <button type="button" onClick={onCancel}>Cancelar</button>
