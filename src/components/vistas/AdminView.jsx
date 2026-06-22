@@ -16,8 +16,6 @@ import { categoriesAPI, productsAPI } from '../../services/api';
 import { productos as productosFalsos } from '../../Data/Productos';
 
 
-
-
 /**
  * Vista de administrador conectada al Backend con control de apertura.
  */
@@ -144,7 +142,7 @@ const handleCancel = () => {
 // ---------- Handlers de categorías ----------
 const handleCreateCategory = async (datos) => {
   try {
-    await categoriesAPI.create(datos);   // <-- corregido (antes enviaba { datos })
+    await categoriesAPI.create({name: datos.nombre});   
     setMensaje('Categoría creada');
     setVistaActualCat('menu');
     cargarCategorias();
@@ -155,7 +153,7 @@ const handleCreateCategory = async (datos) => {
 
 const handleUpdateCategoria = async (id, datos) => {
   try {
-    await categoriesAPI.update(id, datos);
+    await categoriesAPI.update(id, { name: datos.nombre });
     setMensaje('Categoría actualizada');
     setVistaActualCat('menu');
     cargarCategorias();

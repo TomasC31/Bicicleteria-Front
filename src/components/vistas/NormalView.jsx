@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import CatalogoComp from '../CatalogoComp';
-
 //Todavia tenemos los datos falsis por si en el back pasa algo
 import { productos as productosFalsos } from '../../Data/Productos';
 
@@ -65,6 +64,10 @@ export default function HomePag() {
           <CatalogoComp items={productos} type="multi" />
         </div>
 
+        <div className="container mt-4">
+          <h1 className="mb-4">Partes</h1>
+          <CatalogoComp items={productos} type="multi" />
+        </div>
       </div>
     </div>
   );
