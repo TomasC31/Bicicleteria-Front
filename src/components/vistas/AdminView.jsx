@@ -141,13 +141,16 @@ const handleCancel = () => {
 
 // ---------- Handlers de categorías ----------
 const handleCreateCategory = async (datos) => {
+  const payload = { name: datos.nombre };
+
   try {
-    await categoriesAPI.create({name: datos.nombre});   
+    await categoriesAPI.create(payload);
     setMensaje('Categoría creada');
     setVistaActualCat('menu');
     cargarCategorias();
   } catch (error) {
     setMensaje(`Error: ${error.message}`);
+    console.error('Error en handleCreateCategory:', error);
   }
 };
 
@@ -159,6 +162,7 @@ const handleUpdateCategoria = async (id, datos) => {
     cargarCategorias();
   } catch (error) {
     setMensaje(`Error: ${error.message}`);
+
   }
 };
 
