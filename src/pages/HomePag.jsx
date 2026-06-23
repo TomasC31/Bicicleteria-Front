@@ -1,28 +1,20 @@
-import CatalogoComp from '../components/CatalogoComp';
+import React from 'react';
+import NormalView from '../components/vistas/NormalView';
+import AdminView from '../components/vistas/AdminView';
+import { useAuth } from '../Context/AuthContext';
 
-import { productos } from '../Data/Productos';
+/**
+ * Página principal.
+ * Decide qué vista mostrar según el rol del usuario autenticado.
+ */
+export default function HomePage() {
+  const { user, isAuthenticated } = useAuth();
 
+  // Si está autenticado y es admin, mostrar AdminView
+  if (isAuthenticated && user?.rol === 'Admin') {
+    return <AdminView />;
+  }
 
-// Componente de la página de inicio, muestra el catálogo de productos con diferentes tipos de carruseles
-export default function HomePag() {
-  return (
-    <div>
-      <div className="container mt-4">
-        <h1 className="mb-4">Anuncios</h1>
-        <CatalogoComp items={productos} type="simple" />
-      </div>
-
-      <div className='home-page'>
-        <div className="container mt-4">
-          <h1 className="mb-4">Bicicletas </h1>
-          <CatalogoComp items={productos} type="multi" />
-        </div>
-
-        <div className="container mt-4">
-          <h1 className="mb-4">Partes</h1>
-          <CatalogoComp items={productos} type="multi" />
-        </div>
-      </div>
-    </div>
-  );
+  // En cualquier otro caso (no autenticado o rol distinto), vista normal
+  return <NormalView />;
 }

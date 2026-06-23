@@ -1,59 +1,74 @@
 import './SimpleCarousel.css';
 import { useAuth } from '../../Context/AuthContext';
+import { Card, Button } from 'react-bootstrap';
 
-// Carrusel simple sin librerías externas - Usa CSS Scroll Snap
-// Muestra 1 item a la vez ocupando el 100% del ancho con scroll horizontal nativo
 const SimpleCarousel = ({ items }) => {
-
-  const { user, token } = useAuth();
-
-  // Filtramos items nulos para evitar errores de renderizado
+  const { user } = useAuth();
   const safeItems = (items || []).filter(Boolean);
 
-  //Esta funcion se ejecuta cuando el admin hace click en agregar un producto
-  const handleAgregarProducto = async () => {
-    alert("Aca se va a abrir el formulario para agregar el nuevo producto")
-    //CUANDO TENGAMOS EL BACKEND, ACA VAMOS A ABRIR UN FORMULARIO PARA AGREGAR UN NUEVO PRODUCTO, SOLO SI EL USUARIO ESTA LOGEADO Y TIENE EL ROL DE ADMINISTRADOR, SI NO ESTA LOGEADO O NO TIENE EL ROL DE ADMINISTRADOR, MOSTRAMOS UN MENSAJE DE ERROR O UNA ALERTA QUE DIGA QUE NO TIENE PERMISO PARA AGREGAR UN NUEVO PRODUCTO
-  }
+  const handleAgregarProducto = () => {
+    alert("Acá se va a abrir el formulario para agregar el nuevo producto");
+  };
 
   return (
     <div className="simple-carousel-wrapper">
-
-      {/*ESTE BOTON ES SOLO PARA LOS ADMINS*/}
-      {user && user.tipo === 'admin' && (
+      {/* Botón solo para administradores (corregido a user.rol) */}
+      {user && user.rol === 'admin' && (
         <div style={{ textAlign: 'center', marginBottom: '15px' }}>
-          <button onClick={handleAgregarProducto} style={{ padding: '10px 20px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Agregar Producto</button>
+          <button
+            onClick={handleAgregarProducto}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#28a745',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}
+          >
+            Agregar Producto
+          </button>
         </div>
       )}
 
-      {/* Si no hay datos para mostrar,muestro un texto pero NO oculto el boton del admin*/}
       {!safeItems.length ? (
-        <p style={{ textAlign: 'center' }}> No hay productos disponibles en este momento</p>
+        <p style={{ textAlign: 'center' }}>No hay productos disponibles en este momento</p>
       ) : (
         <>
-          {/*Contenedor del carrousel con CSS Scroll Snap*/}
           <div className="simple-carousel-container">
+            {safeItems.map((item) => {
+              const imagenSrc =
+                item.imagen ||
+                item.imagenDir ||
+                item.imageUrl ||
+                'https://via.placeholder.com/300x200?text=Sin+imagen';
 
-            {/* Mapeo cada item y lo renderizo en un slide */}
-            {safeItems.map((item) => (
-              <div key={item.id} className="simple-carousel-slide">
-
-                {/* Card personalizada sin React Bootstrap */}
-                <div className="simple-carousel-card">
-                  
-                  {/* Imagen del producto */}
-                  {item.imagen && (
-                    <div className="simple-carousel-image-wrapper">
-                      <img src={item.imagen} className="simple-carousel-image" alt="Producto" />
-                    </div>
-                  )}
-
+              return (
+                <div key={item.id} className="simple-carousel-slide">
+                  {/* Card de Bootstrap que ocupa todo el ancho del slide */}
+                  <Card className="w-100">
+                    <Card.Img
+                      variant="top"
+                      src={imagenSrc}
+                      alt={item.nombre || 'Producto'}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://placehold.co/300x200?text=Sin+imagen';
+                      }}
+                    />
+                    
+                  </Card>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* Indicador visual del número de slides*/}
+          {/* Indicadores de slide */}
           <div className="simple-carousel-indicators">
             {safeItems.map((_, index) => (
               <div key={index} className="simple-carousel-dot" />

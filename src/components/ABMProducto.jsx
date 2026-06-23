@@ -1,6 +1,11 @@
 import React from 'react';
 import './ABMProducto.css';
 
+
+
+//Cuando aprieto el boton de gestionar los productos, se abre esto para preguntarme que es lo que quiero hacer.
+//Despues de elegir, paso a add, delete o modify, dependiendo lo que elegí.
+
 const ABMProducto = ({ onAdd, onModify, onDelete, onCancel }) => {
   return (
     <div className="abm-producto-container">

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
-import { registrarUsuario } from '../Data/Usuarios';
+import { authAPI } from '../services/api';
 
 const RegisterComp = () => {
   // Estado para los datos del formulario
@@ -76,8 +75,8 @@ const RegisterComp = () => {
     return newErrors;
   };
 
-  // Manejar envío del formulario
-  const handleSubmit = (e) => {
+  // Manejar envío del formulario - NOTA: Se agregó 'async' aquí
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Validar
@@ -87,19 +86,31 @@ const RegisterComp = () => {
       return;
     }
     
-    // Aquí haces la llamada a tu API/backend
-    const resultado = registrarUsuario(formData.nombre, formData.apellido, formData.mail, formData.password);
+    // Bloque try...catch para manejar la conexión real
+    try {
+      // Llamada real al backend. 
+      // Nota: Uso firstName y lastName asumiendo que el backend está en inglés.
+      await authAPI.register({
+        firstName: formData.nombre,
+        lastName: formData.apellido,
+        email: formData.mail,
+        password: formData.password
+      });
 
-    if(resultado.exito){
+      // Si la línea anterior no tiró error, significa que el registro fue un éxito
       setSuccessMessage('Registro exitoso. Redirigiendo al login...');
       setFormData({nombre: '', apellido: '', mail: '', password: '', confirmPassword: ''});
+      
       setTimeout(() => {
         window.location.href = '/login';
       }, 2000);
-    } else{
-      setErrors({submit: resultado.mensaje || 'Error al registrar usuario'});
+
+    } catch (error) {
+      // Si el servidor responde con error (ej: "Email ya en uso"), se captura aquí
+      setErrors({submit: error.message || 'Error al registrar usuario en el servidor'});
     }
   };
+
   return (
     <>
       {/* Mensaje de éxito */}

@@ -53,7 +53,9 @@ export default function LoginComp() {
       navigate("/"); // Redirijo a la página principal después de un login exitoso
 
     } catch (error) {
+
       setErrors({ submit: "Error al intentar iniciar sesión" });
+      setErrors({ submit: email  }); // Muestro el mensaje de error que viene del backend (ej. "Credenciales inválidas")
     }
   };
 
