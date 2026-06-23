@@ -137,7 +137,7 @@ const MultiItemCarousel = ({ items }) => {
           itemAriaLabel="slide"
         >
           {safeItems.map((item) => {
-            const imagenSrc = item.imagen || item.imagenDir || item.imageUrl || 'https://via.placeholder.com/300x200?text=Sin+imagen';
+            const imagenSrc = item.imagen || item.imagenDir || item.imageUrl || 'https://placehold.co/300x200?text=Sin+imagen';
             return (
               <div key={item.id} className="d-flex justify-content-center">
                 <Card style={{ width: '20rem' }}>

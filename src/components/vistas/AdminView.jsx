@@ -44,6 +44,7 @@ const cargarProductos = async () => {
       imagen: p.imageUrl || '',
       categoryId: p.categoryId,
     }));
+    
     setProductos(productosTraducidos);
   } catch (error) {
     console.error('Error al cargar productos:', error);
@@ -75,18 +76,29 @@ const handleCreate = async (nuevoProducto) => {
       name: nuevoProducto.nombre,
       description: nuevoProducto.descripcion,
       price: Number(nuevoProducto.precio) || 0,
-      imageUrl: "",
+      imageUrl: nuevoProducto.imagenDir || nuevoProducto.imagen || '',
       categoryId: Number(nuevoProducto.categoriaId) || 1,
       availability: true,
     };
-    console.log("Enviando al backend:", payload);
-    await productsAPI.create(payload);
+    console.log('PAYLOAD ENVIADO:', JSON.stringify(payload, null, 2));
+
+    const productoCreado = await productsAPI.create(payload);
+
+    // Agregar al estado local
+    const nuevo = {
+      id: productoCreado.id,
+      nombre: productoCreado.name,
+      descripcion: productoCreado.description,
+      precio: productoCreado.price,
+      imagen: productoCreado.imageUrl || '',
+      categoryId: productoCreado.categoryId,
+    };
+    setProductos(prev => [...prev, nuevo]);
     setMensaje('Producto creado exitosamente.');
     setVistaActual('menu');
-    cargarProductos();
   } catch (error) {
     setMensaje(`Error al crear producto: ${error.message}`);
-    console.error("Fallo del servidor:", error);
+    console.error('Fallo del servidor:', error);
   }
 };
 

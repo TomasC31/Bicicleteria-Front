@@ -14,7 +14,7 @@ const GridLayout = ({ items }) => {
             item.imagen ||
             item.imagenDir ||
             item.imageUrl ||
-            'https://via.placeholder.com/300x200?text=Sin+imagen';
+            'https://placehold.co/300x200?text=Sin+imagen';
 
           return (
             <Col key={item.id}>

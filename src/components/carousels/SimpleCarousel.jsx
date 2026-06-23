@@ -59,7 +59,7 @@ const SimpleCarousel = ({ items }) => {
                       }}
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = 'https://via.placeholder.com/300x200?text=Sin+imagen';
+                        e.target.src = 'https://placehold.co/300x200?text=Sin+imagen';
                       }}
                     />
                     
