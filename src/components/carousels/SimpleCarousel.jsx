@@ -62,18 +62,7 @@ const SimpleCarousel = ({ items }) => {
                         e.target.src = 'https://via.placeholder.com/300x200?text=Sin+imagen';
                       }}
                     />
-                    <Card.Body>
-                      <Card.Title>{item.nombre}</Card.Title>
-                      <Card.Text className="fw-bold text-success">
-                        ${new Intl.NumberFormat('es-AR').format(item.precio)}
-                      </Card.Text>
-                      {item.categoriaNombre && (
-                        <span className="badge bg-secondary mb-2">
-                          {item.categoriaNombre}
-                        </span>
-                      )}
-                      <Button variant="primary">Comprar</Button>
-                    </Card.Body>
+                    
                   </Card>
                 </div>
               );
