@@ -58,7 +58,7 @@ const MultiItemCarousel = ({ items }) => {
                 <Card.Body>
                   <Card.Title>{item.nombre}</Card.Title>
                   <Card.Text>{item.descripcion}</Card.Text>
-                  <Card.Text className="fw-bold">
+                  <Card.Text className="fw-bold text-success">
                     Precio: ${new Intl.NumberFormat('es-AR').format(item.precio)}
                   </Card.Text>
                   <Button variant="primary">Comprar</Button>
