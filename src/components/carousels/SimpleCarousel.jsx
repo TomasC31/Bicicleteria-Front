@@ -4,17 +4,15 @@ import { Card, Button } from 'react-bootstrap';
 
 const SimpleCarousel = ({ items }) => {
   const { user } = useAuth();
-
   const safeItems = (items || []).filter(Boolean);
 
-  // Mientras no tengas el formulario conectado, dejamos la alerta
   const handleAgregarProducto = () => {
     alert("Acá se va a abrir el formulario para agregar el nuevo producto");
   };
 
   return (
     <div className="simple-carousel-wrapper">
-      {/* Botón solo para administradores */}
+      {/* Botón solo para administradores (corregido a user.rol) */}
       {user && user.rol === 'admin' && (
         <div style={{ textAlign: 'center', marginBottom: '15px' }}>
           <button
@@ -39,7 +37,6 @@ const SimpleCarousel = ({ items }) => {
         <>
           <div className="simple-carousel-container">
             {safeItems.map((item) => {
-              // Determinar la mejor URL de imagen disponible
               const imagenSrc =
                 item.imagen ||
                 item.imagenDir ||
@@ -48,21 +45,21 @@ const SimpleCarousel = ({ items }) => {
 
               return (
                 <div key={item.id} className="simple-carousel-slide">
-                  <Card style={{ width: '100%', maxWidth: '20rem', margin: '0 auto' }}>
+                  {/* Card de Bootstrap que ocupa todo el ancho del slide */}
+                  <Card className="w-100">
                     <Card.Img
                       variant="top"
                       src={imagenSrc}
                       alt={item.nombre || 'Producto'}
                       style={{
-                        height: '200px',
-                        objectFit: 'cover',
-                        maxHeight: '300px',
                         width: '100%',
+                        height: 'auto',
+                        maxHeight: '300px',
+                        objectFit: 'cover',
                       }}
                       onError={(e) => {
-                        e.target.onerror = null; // evitar bucle
-                        e.target.src =
-                          'https://via.placeholder.com/300x200?text=Sin+imagen';
+                        e.target.onerror = null;
+                        e.target.src = 'https://via.placeholder.com/300x200?text=Sin+imagen';
                       }}
                     />
                     <Card.Body>
@@ -83,6 +80,7 @@ const SimpleCarousel = ({ items }) => {
             })}
           </div>
 
+          {/* Indicadores de slide */}
           <div className="simple-carousel-indicators">
             {safeItems.map((_, index) => (
               <div key={index} className="simple-carousel-dot" />
