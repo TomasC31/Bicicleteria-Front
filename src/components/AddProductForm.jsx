@@ -22,11 +22,9 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
         const datos = await categoriesAPI.getAll();
         setListaCategorias(datos || []);
       } catch (error) {
-        console.error("No se pudieron cargar las categorías:", error);
-        setListaCategorias([
-          { id: 2, name: 'Bicicletas' },
-          { id: 3, name: 'Partes' }
-        ]);
+        console.error("No se pudieron cargar las categorias:", error);
+       
+        setListaCategorias([]);
       }
     };
     obtenerCategorias();
