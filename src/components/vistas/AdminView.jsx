@@ -13,7 +13,6 @@ import ModifyCategoryForm from '../Categorias/ModifyCategoryForm';
 import DeleteCategoryForm from '../Categorias/DeleteCategoryForm';
 
 import { categoriesAPI, productsAPI } from '../../services/api';
-import { productos as productosFalsos } from '../../Data/Productos';
 
 
 /**
@@ -47,8 +46,8 @@ const cargarProductos = async () => {
     setProductos(productosTraducidos);
   } catch (error) {
     console.error('Error al cargar productos:', error);
-    setProductos(productosFalsos);
-    setMensaje('No se pudieron cargar los productos. Usando datos locales.');
+    setProductos([]);
+    setMensaje('No se pudieron cargar los productos.');
   }
 };
 

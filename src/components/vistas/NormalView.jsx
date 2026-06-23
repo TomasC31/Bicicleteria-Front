@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import CatalogoComp from '../CatalogoComp';
-//Todavia tenemos los datos falsis por si en el back pasa algo
-import { productos as productosFalsos } from '../../Data/Productos';
 
 
 // Componente de la página de inicio, muestra el catálogo de productos con diferentes tipos de carruseles
@@ -41,8 +39,8 @@ export default function HomePag() {
       } catch (error) {
         console.error('Error al cargar los productos:', error);
         
-        //Si hay un error, por ejemplo el backend no responde, muestro los productos falsos para que el usuario no vea una pagina vacia
-        setListaProductos(productosFalsos);
+      //Si hay un error, muestro vacio.
+        setListaProductos([]);
       }
     };
 

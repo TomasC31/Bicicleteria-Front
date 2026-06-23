@@ -12,16 +12,6 @@ import { AuthProvider } from './Context/AuthContext'; // Para envolver la app co
 
 
 
-//Inicializo los productos antes de REACTDOM para que los productos
-//Esten cargados en el LS antes de que se renderice cualquier componente
-import { inicializarProductos } from "./Data/Productos"
-inicializarProductos();
-
-import { inicializarUsuarios } from "./Data/Usuarios"
-//Inicializo los usuarios antes de REACTDOM para que los usuarios
-//Esten cargados en el LS antes de que se renderice cualquier componente
-inicializarUsuarios();
-
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
