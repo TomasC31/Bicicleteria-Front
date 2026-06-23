@@ -53,8 +53,7 @@ const SimpleCarousel = ({ items }) => {
                       alt={item.nombre || 'Producto'}
                       style={{
                         width: '100%',
-                        height: 'auto',
-                        maxHeight: '300px',
+                        height: '100%',
                         objectFit: 'cover',
                       }}
                       onError={(e) => {

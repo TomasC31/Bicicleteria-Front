@@ -11,9 +11,10 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
   const [categoryId, setCategoryId] = useState('');
   const [listaCategorias, setListaCategorias] = useState([]);
 
-  // --- NUEVO: campo para URL de imagen manual ---
+  // campo para URL de imagen manual
   const [imageUrl, setImageUrl] = useState('');
   const [imageUrlError, setImageUrlError] = useState('');
+  const [priceError, setPriceError] = useState('');
 
   // Cargar categorías al montar
   useEffect(() => {
@@ -22,8 +23,7 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
         const datos = await categoriesAPI.getAll();
         setListaCategorias(datos || []);
       } catch (error) {
-        console.error("No se pudieron cargar las categorias:", error);
-       
+        console.error("No se pudieron cargar las categorías:", error);
         setListaCategorias([]);
       }
     };
@@ -37,15 +37,14 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
       setDescription(productToEdit.descripcion || '');
       setPrice(productToEdit.precio || '');
       setCategoryId(productToEdit.categoriaId || '');
-      
-      // Imagen existente
+
       const imgExistente = productToEdit.imagen || productToEdit.imagenDir || productToEdit.imageUrl || '';
       setImagePreview(imgExistente);
       setImageUrl(imgExistente);
     }
   }, [productToEdit]);
 
-  // --- Manejar subida de archivo (ya existía) ---
+  // Manejar subida de archivo
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -57,13 +56,18 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
     }
   };
 
-  // --- NUEVO: Manejar cambio en URL de imagen ---
+  // Manejar cambio en URL de imagen
   const handleImageUrlChange = (e) => {
     const url = e.target.value;
     setImageUrl(url);
     setImageUrlError('');
 
     if (url && /^https?:\/\//.test(url)) {
+      if (url.length > 500) {
+        setImageUrlError('La URL es demasiado larga (máx. 500 caracteres).');
+        setImagePreview('');
+        return;
+      }
       setImagePreview(url);
       setImage(null); // limpiamos archivo si se pega URL
     } else if (url && !/^https?:\/\//.test(url)) {
@@ -73,28 +77,56 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
     }
   };
 
-  // --- NUEVO: Validar URL de imagen ---
+  // Validación de precio
+  const handlePriceChange = (e) => {
+    const value = e.target.value;
+    setPrice(value);
+    setPriceError('');
+
+    const num = parseFloat(value);
+    if (!isNaN(num) && num > 999999.99) {
+      setPriceError('El precio no puede superar 999.999,99');
+    }
+  };
+
+  // Validar URL de imagen
   const validarImagenUrl = () => {
     if (imageUrl && !/^https?:\/\//.test(imageUrl)) {
       setImageUrlError('La URL debe comenzar con http:// o https://');
       return false;
     }
+    if (imageUrl && imageUrl.length > 500) {
+      setImageUrlError('La URL es demasiado larga (máx. 500 caracteres).');
+      return false;
+    }
     return true;
   };
 
-  // --- Enviar formulario (con validación adicional) ---
+  // Enviar formulario
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validar precio máximo
+    const numPrice = parseFloat(price);
+    if (isNaN(numPrice) || numPrice <= 0) {
+      setPriceError('Ingrese un precio válido.');
+      return;
+    }
+    if (numPrice > 999999.99) {
+      setPriceError('El precio no puede superar 999.999,99');
+      return;
+    }
 
     if (!validarImagenUrl()) return;
 
     const productData = {
-      id: productToEdit ? productToEdit.id : Date.now(),
+      // Solo incluimos id si estamos editando
+      ...(productToEdit && { id: productToEdit.id }),
       nombre: name,
       descripcion: description,
-      precio: parseFloat(price),
-      imagen: imagePreview,           // preview actual (archivo o URL)
-      imagenDir: imageUrl || imagePreview, // URL completa para el backend
+      precio: numPrice,
+      imagen: imagePreview,                     // preview actual (archivo o URL)
+      imagenDir: imageUrl || imagePreview,       // URL completa para el backend
       categoriaId: parseInt(categoryId),
     };
     onSave(productData);
@@ -147,12 +179,16 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
           <input
             type="number"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={handlePriceChange}
             required
+            className={priceError ? 'is-invalid' : ''}
           />
+          {priceError && (
+            <small className="text-danger">{priceError}</small>
+          )}
         </div>
 
-        {/* --- Subida de archivo (ya existía) --- */}
+        {/* Subida de archivo */}
         <div className="form-group">
           <label>Subir Imagen</label>
           <input
@@ -162,7 +198,7 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
           />
         </div>
 
-        {/* --- NUEVO: Campo de URL de imagen --- */}
+        {/* Campo de URL de imagen */}
         <div className="form-group">
           <label>O pegar URL de Imagen</label>
           <input
@@ -176,11 +212,11 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
             <small className="text-danger">{imageUrlError}</small>
           )}
           <small className="text-muted d-block">
-            Debe comenzar con http:// o https://
+            Debe comenzar con http:// o https:// (máx. 500 caracteres)
           </small>
         </div>
 
-        {/* --- Vista previa mejorada --- */}
+        {/* Vista previa */}
         {imagePreview && (
           <div className="image-preview-wrapper" style={{ marginTop: '15px', textAlign: 'center' }}>
             <img
@@ -195,7 +231,7 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
               }}
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = 'https://via.placeholder.com/300x200?text=Sin+imagen';
+                e.target.src = 'https://placehold.co/300x200?text=Sin+imagen';
               }}
             />
           </div>
