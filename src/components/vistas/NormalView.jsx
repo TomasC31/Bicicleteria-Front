@@ -40,7 +40,7 @@ export default function HomePag() {
 
       } catch (error) {
         console.error('Error al cargar los productos:', error);
-
+        
         //Si hay un error, por ejemplo el backend no responde, muestro los productos falsos para que el usuario no vea una pagina vacia
         setListaProductos(productosFalsos);
       }

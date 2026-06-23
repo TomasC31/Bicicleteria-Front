@@ -15,7 +15,7 @@ const DeleteCategoryForm = ({ items, onDelete, onCancel }) => {
                 <button
                   className="btn btn-sm btn-danger"
                   onClick={() => {
-                    const nombreMostrado = cat.nombre || cat.name || 'esta categoría';
+                    const nombreMostrado = cat.name || 'esta categoría';
                     if (window.confirm(`¿Eliminar "${nombreMostrado}"?`)) {
                       onDelete(cat.id);
                     }

@@ -16,8 +16,6 @@ const AddCategoryForm = ({ onSave, onCancel, categoryToEdit }) => {
 
     if (!nombre.trim()) return;
 
-
-
     if (categoryToEdit) {
       onSave(categoryToEdit.id, { nombre: nombre.trim() });
     } else {
