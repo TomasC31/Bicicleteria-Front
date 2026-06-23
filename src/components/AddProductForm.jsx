@@ -31,18 +31,20 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
   }, []);
 
   // Cargar datos si estamos editando
-  useEffect(() => {
-    if (productToEdit) {
-      setName(productToEdit.nombre || '');
-      setDescription(productToEdit.descripcion || '');
-      setPrice(productToEdit.precio || '');
-      setCategoryId(productToEdit.categoriaId || '');
-
-      const imgExistente = productToEdit.imagen || productToEdit.imagenDir || productToEdit.imageUrl || '';
-      setImagePreview(imgExistente);
-      setImageUrl(imgExistente);
-    }
-  }, [productToEdit]);
+useEffect(() => {
+  if (productToEdit) {
+    console.log('productToEdit recibido:', productToEdit);
+    setName(productToEdit.nombre || '');
+    setDescription(productToEdit.descripcion || '');
+    setPrice(productToEdit.precio || '');
+    setCategoryId(productToEdit.categoriaId || '');
+    
+    const imgExistente = productToEdit.imagen || productToEdit.imagenDir || productToEdit.imageUrl || '';
+    console.log('Imagen existente:', imgExistente);
+    setImagePreview(imgExistente);
+    setImageUrl(imgExistente);
+  }
+}, [productToEdit]);
 
   // Manejar subida de archivo
   const handleImageChange = (e) => {
@@ -129,6 +131,10 @@ const AddProductForm = ({ onSave, onCancel, productToEdit }) => {
       imagenDir: imageUrl || imagePreview,       // URL completa para el backend
       categoriaId: parseInt(categoryId),
     };
+
+    console.log('Datos a enviar:', productData);
+
+
     onSave(productData);
   };
 

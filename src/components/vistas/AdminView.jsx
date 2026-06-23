@@ -101,24 +101,39 @@ export default function AdminView() {
     }
   };
 
-  const handleUpdate = async (productoModificado) => {
-    try {
-      await productsAPI.update(productoModificado.id, {
-        name: productoModificado.nombre,
-        description: productoModificado.descripcion,
-        price: productoModificado.precio,
-        imageUrl: "",
-        categoryId: productoModificado.categoriaId,
-        availability: true,
-      });
-      setMensaje('Producto actualizado correctamente.');
-      setProductoAEditar(null);
-      setVistaActual('menu');
-      cargarProductos();
-    } catch (error) {
-      setMensaje(`Error al actualizar: ${error.message}`);
-    }
-  };
+const handleUpdate = async (productoModificado) => {
+  try {
+    const payload = {
+      name: productoModificado.nombre,
+      description: productoModificado.descripcion,
+      price: Number(productoModificado.precio),
+      imageUrl: productoModificado.imagenDir || productoModificado.imagen || '',
+      categoryId: Number(productoModificado.categoriaId) || 1,
+      availability: true,
+    };
+
+    const productoActualizado = await productsAPI.update(productoModificado.id, payload);
+
+    // Mapeamos la respuesta a español para mantener coherencia con el estado
+    const actualizado = {
+      id: productoActualizado.id,
+      nombre: productoActualizado.name,
+      descripcion: productoActualizado.description,
+      precio: productoActualizado.price,
+      imagen: productoActualizado.imageUrl || '',   // 👈 clave para mostrar la imagen en el catálogo
+      categoryId: productoActualizado.categoryId,
+    };
+
+    setProductos(prev =>
+      prev.map(p => (p.id === actualizado.id ? actualizado : p))
+    );
+    setMensaje('Producto actualizado correctamente.');
+    setProductoAEditar(null);
+    setVistaActual('menu');
+  } catch (error) {
+    setMensaje(`Error al actualizar: ${error.message}`);
+  }
+};
 
   const handleDelete = async (id) => {
     if (!window.confirm('¿Eliminar este producto?')) return;
