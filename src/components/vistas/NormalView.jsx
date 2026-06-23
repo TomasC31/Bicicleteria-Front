@@ -64,7 +64,7 @@ export default function HomePag() {
 
         <div className="container mt-4">
           <h1 className="mb-4">Partes</h1>
-          <CatalogoComp items={productos} type="multi" />
+          <CatalogoComp items={productos} type="grid" />
         </div>
       </div>
     </div>
