@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useAuth } from '../Context/AuthContext'; // Importantisimo para avisar a toda la app que me logueo.
 
-// Se encarga del formulario interactivo del login.
-// Maneja toda la logica, estado, comportamiento de los datos.
+//Se encarga del formulario interactivo del login.
+//Maneja toda la logica, estado, comportamiento de los datos.
 
-// Permite redirigir al usuario a otra pagina desde el codigo sin que tenga que hacer click en otro lado
+//Permite redirigir al usuario a otra pagina desde el codigo sin que tenga que hacer click en otro lado
 import { useNavigate } from "react-router-dom";
 
-// Componente de Login, recibe estos 2 datos del formulario, y el estado de los errores, este sirve para mostrar el mensaje de error si no completo las casillas
+//Componente de Login, recibe estos 2 datos del formulario, y el estado de los errores, este sirve para mostrar el mensaje de error si no completo las casillas
 export default function LoginComp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,9 +37,9 @@ export default function LoginComp() {
     return newErrors;
   };
 
-  // Funcion para esperar la respuesta del login y si es exitoso, redirigir a la pantalla principal.
+  //Funcion para esperar la respuesta del login y si es exitoso, redirigir a la pantalla principal.
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evita que la página se recargue al enviar el formulario
+    e.preventDefault(); //Evita que la página se recargue al enviar el formulario
     
     const newErrors = validateForm();
 
@@ -49,13 +49,13 @@ export default function LoginComp() {
     }
 
     try {
-      await login(email, password); // Llamo a la función de login del contexto
-      navigate("/"); // Redirijo a la página principal después de un login exitoso
+      await login(email, password); //Llamo a la función de login del contexto
+      navigate("/"); //Redirijo a la página principal después de un login exitoso
 
     } catch (error) {
 
       setErrors({ submit: "Error al intentar iniciar sesión" });
-      setErrors({ submit: email  }); // Muestro el mensaje de error que viene del backend (ej. "Credenciales inválidas")
+      setErrors({ submit: email  }); //Muestro el mensaje de error que viene del backend (ej. "Credenciales inválidas")
     }
   };
 

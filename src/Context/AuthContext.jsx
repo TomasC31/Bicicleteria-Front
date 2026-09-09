@@ -4,8 +4,8 @@ import {authAPI} from '../services/api'; // Importo la función de login real de
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
-    const [token, setToken] = useState(() => localStorage.getItem('token') || null);
+    const [user, setUser] = useState(null); // Estado para almacenar la información del usuario
+    const [token, setToken] = useState(() => localStorage.getItem('token') || null); // Estado para almacenar el token de autenticación
 
         // Bloquear cualquier intento de logout automático mientras se está en la página de login
     useEffect(() => {
@@ -20,10 +20,10 @@ export function AuthProvider({ children }) {
         const data = await authAPI.login(mail, password);
         // data = { accessToken: string, usuario: object }
 
-        const accessToken = data.accessToken;
+        const accessToken = data.accessToken; //Aca llega el token de acceso desde el backend
         const userData = {
             id: data.user.id,           // Ajustá según el nombre exacto que venga del backend
-            nombre: data.user.firstName,
+            nombre: data.user.firstName, 
             apellido: data.user.lastName,
             mail: data.user.email,
             rol: data.user.roleName
@@ -31,10 +31,10 @@ export function AuthProvider({ children }) {
 
         //DEBUGIN
 
-        localStorage.setItem('token', accessToken);
-        localStorage.setItem('user', JSON.stringify(userData));
-        setToken(accessToken);
-        setUser(userData);
+        localStorage.setItem('token', accessToken); //Guardamos el token en localStorage
+        localStorage.setItem('user', JSON.stringify(userData)); //Guardamos el usuario en localStorage como string
+        setToken(accessToken); //Actualizo estados
+        setUser(userData); 
 
         } catch (error) {
             
@@ -46,7 +46,8 @@ export function AuthProvider({ children }) {
     };
 
     const logout = () => {
-        localStorage.removeItem('token');
+        //cuando me deslogueo, borro el token y el usuario del ls y actualizo los estados.
+        localStorage.removeItem('token'); 
         localStorage.removeItem('user');
         setToken(null);
         setUser(null);
@@ -58,5 +59,5 @@ export function AuthProvider({ children }) {
         </AuthContext.Provider>
     );
 }
-
+// Custom hook para usar el contexto de autenticación
 export const useAuth = () => useContext(AuthContext);

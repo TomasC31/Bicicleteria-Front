@@ -1,5 +1,7 @@
 import React from 'react';
 
+
+//Sirve para mostrar la lista de productos disponibles para modificar. Recibe como props los items (productos), una función onSelect que se ejecuta al seleccionar un producto y una función onCancel que se ejecuta al cancelar la acción y volver al panel principal.
 const ModifyProductList = ({ items, onSelect, onCancel }) => {
   return (
     <div className="container mt-3 p-4 border rounded bg-light">

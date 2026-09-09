@@ -19,6 +19,8 @@ import { categoriesAPI, productsAPI } from '../../services/api';
  * Vista de administrador conectada al Backend con control de apertura.
  */
 
+
+// Sirve como contenedor de las vistas de ABM de productos y categorías, y del catálogo de productos.
 export default function AdminView() {
   // Estados de productos
   const [productos, setProductos] = useState([]);
@@ -27,10 +29,10 @@ export default function AdminView() {
   const [productoAEditar, setProductoAEditar] = useState(null);
 
   // Estados de categorías
-  const [categorias, setCategorias] = useState([]);
-  const [vistaActualCat, setVistaActualCat] = useState('inicio');
-  const [categoriaAEditar, setCategoriaAEditar] = useState(null);
-
+  const [categorias, setCategorias] = useState([]); // Estado para almacenar las categorías
+  const [vistaActualCat, setVistaActualCat] = useState('inicio'); // Estado para controlar la vista actual de categorías
+  const [categoriaAEditar, setCategoriaAEditar] = useState(null); // Estado para almacenar la categoría seleccionada para editar
+ 
   // ---------- Carga de datos ----------
   const cargarProductos = async () => {
     try {
@@ -69,6 +71,8 @@ export default function AdminView() {
   }, []);
 
   // ---------- Handlers de productos ----------
+
+  //Sirve para crear un nuevo producto
   const handleCreate = async (nuevoProducto) => {
     try {
       const payload = {
@@ -101,6 +105,8 @@ export default function AdminView() {
     }
   };
 
+
+  // Sirve para actualizar un producto existente
 const handleUpdate = async (productoModificado) => {
   try {
     const payload = {
@@ -120,10 +126,12 @@ const handleUpdate = async (productoModificado) => {
       nombre: productoActualizado.name,
       descripcion: productoActualizado.description,
       precio: productoActualizado.price,
-      imagen: productoActualizado.imageUrl || '',   // 👈 clave para mostrar la imagen en el catálogo
+      imagen: productoActualizado.imageUrl || '', 
       categoryId: productoActualizado.categoryId,
     };
 
+
+    // Actualizamos el estado local de productos
     setProductos(prev =>
       prev.map(p => (p.id === actualizado.id ? actualizado : p))
     );
@@ -135,6 +143,8 @@ const handleUpdate = async (productoModificado) => {
   }
 };
 
+
+  // Sirve para eliminar un producto existente
   const handleDelete = async (id) => {
     if (!window.confirm('¿Eliminar este producto?')) return;
     try {
@@ -146,6 +156,8 @@ const handleUpdate = async (productoModificado) => {
     }
   };
 
+
+  // Sirve para seleccionar un producto y abrir el formulario de edición
   const handleSeleccionarParaEditar = (producto) => {
     const mapeado = {
       id: producto.id,
